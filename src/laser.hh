@@ -1,11 +1,13 @@
 #pragma once
 
+#include "time.hh"
+
 namespace lzr{
     class laser{
     private:
         unsigned int m_power;
         bool m_emitting;
-        //a timer
+        lzr::timer m_timer;
         
     public:
         laser()
@@ -30,7 +32,8 @@ namespace lzr{
         void 
         keep_alive()
         {
-            //reset the timer
+            if(m_emitting)
+                m_timer.reset();
         }
         
         /* lzr::laser::start_emission starts emission if the laser is not emitting.
@@ -42,6 +45,7 @@ namespace lzr{
         {
             if(!m_emitting){
                 m_emitting = true;
+                m_timer.set_timeout(5, [&](){ m_emitting = false; });
                 return false;
             }
             return true;

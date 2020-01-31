@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCES src/main.cc)
 
 add_executable( ${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME} pthread)
 
 if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
