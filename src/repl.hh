@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <tuple>
 
 namespace lzr{
     
@@ -11,7 +12,8 @@ namespace lzr{
     public:
         commander() = default;
 
-        std::string execute(std::string, std::vector<int>)
+        std::string 
+        execute(std::string, std::vector<int>)
         {
             return std::string("UK!");
         }
@@ -29,7 +31,8 @@ namespace lzr{
     public:
         repl() = default;
         
-        void run()
+        void 
+        run()
         {
             std::string input;
             while(true){
@@ -50,20 +53,22 @@ namespace lzr{
                     continue;
                 }
                 
-                auto args = get_args(input);
+                auto [command, args] = get_args(input);
                 
-                std::cout << m_commander.execute(input, args) << std::endl;
+                std::cout << m_commander.execute(command, args) << std::endl;
             }
         }
         
     private:
         /* lzr::repl::get_args takes the input and returns the `int` arguments
-         * as a vector without the command itself. 
+         * as a vector without the command itself. Use boost/qt if available.
+         * Adapted from https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
          */
-        std::vector<int> get_args(std::string input)
+        std::tuple<std::string, std::vector<int>>
+        get_args(std::string input)
         {
             std::vector<int> args;
-            std::string arg;
+            std::string arg, command;
             std::istringstream stream(input);
             
             bool is_command = true;
@@ -72,12 +77,13 @@ namespace lzr{
                 
                 if(is_command){
                     is_command = false;
+                    command = arg;
                     continue;
                 }
                 
                 args.push_back(std::stoi(arg));
             }
-            return args;
+            return {command, args};
         }
     };
 }
