@@ -5,17 +5,73 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
+#include <map>
+#include <functional>
+#include "laser.hh"
 
 namespace lzr{
     
     class commander{
+    private:
+        std::map<std::string, std::function<std::string(commander*, std::vector<int>)>> m_worker;
+        lzr::laser m_laser;
+        
     public:
-        commander() = default;
+        commander()
+        {
+            m_worker["STR"] = &commander::command_str;
+            m_worker["STP"] = &commander::command_stp;
+            m_worker["ST?"] = &commander::command_st;
+            m_worker["KAL"] = &commander::command_kal;
+            m_worker["PW?"] = &commander::command_pwq;
+            m_worker["PW="] = &commander::command_pws;
+        }
 
         std::string 
-        execute(std::string, std::vector<int>)
+        execute(std::string command, std::vector<int>args)
         {
+            auto iterator = m_worker.find(command);
+            if(iterator != m_worker.end()){
+                return iterator->second(this, args);
+            }
             return std::string("UK!");
+        }
+        
+    private:
+        std::string 
+        command_str(std::vector<int>)
+        {
+            return "str";
+        }
+        
+        std::string 
+        command_stp(std::vector<int>)
+        {
+            return "str";
+        }
+        
+        std::string 
+        command_st(std::vector<int>)
+        {
+            return "str";
+        }
+        
+        std::string 
+        command_kal(std::vector<int>)
+        {
+            return "str";
+        }
+        
+        std::string 
+        command_pwq(std::vector<int>)
+        {
+            return "str";
+        }
+        
+        std::string 
+        command_pws(std::vector<int>)
+        {
+            return "str";
         }
     };
     
@@ -26,7 +82,7 @@ namespace lzr{
     
     class repl{
     private:
-        commander m_commander;
+        lzr::commander m_commander;
         mode m_mode;
     public:
         repl() = default;
