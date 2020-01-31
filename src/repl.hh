@@ -1,16 +1,18 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <iostream>
+#include <vector>
 
 namespace lzr{
     
     class commander{
     public:
         commander() = default;
-        
-        template<class ... T>
-        std::string execute(std::string, T... args){
+
+        std::string execute(std::string, std::vector<int>)
+        {
             return std::string("UK!");
         }
     };
@@ -27,7 +29,8 @@ namespace lzr{
     public:
         repl() = default;
         
-        void run(){
+        void run()
+        {
             std::string input;
             while(true){
                 std::cout << ">> ";
@@ -47,8 +50,34 @@ namespace lzr{
                     continue;
                 }
                 
-                std::cout << m_commander.execute(input) << std::endl;
+                auto args = get_args(input);
+                
+                std::cout << m_commander.execute(input, args) << std::endl;
             }
+        }
+        
+    private:
+        /* lzr::repl::get_args takes the input and returns the `int` arguments
+         * as a vector without the command itself. 
+         */
+        std::vector<int> get_args(std::string input)
+        {
+            std::vector<int> args;
+            std::string arg;
+            std::istringstream stream(input);
+            
+            bool is_command = true;
+            
+            while (std::getline(stream, arg, '|')) {
+                
+                if(is_command){
+                    is_command = false;
+                    continue;
+                }
+                
+                args.push_back(std::stoi(arg));
+            }
+            return args;
         }
     };
 }
