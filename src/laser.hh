@@ -8,7 +8,11 @@ namespace lzr{
         //a timer
         
     public:
-        laser() = default;
+        laser()
+        {
+            m_emitting = false;
+            m_power = 1;
+        }
         
         void 
         set_power(unsigned int power)
