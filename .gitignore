@@ -1,2 +1,4 @@
 build/
 .clangd/
+.kateproject
+compile_commands.json
