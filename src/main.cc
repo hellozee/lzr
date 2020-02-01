@@ -1,4 +1,3 @@
-#include <iostream>
 #include "repl.hh"
 
 int main()

@@ -34,7 +34,6 @@ public:
 
                     end = std::chrono::system_clock::now();
                 }
-
                 callback();
             });
             t.detach();
