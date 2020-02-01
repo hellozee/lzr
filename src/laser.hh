@@ -29,11 +29,15 @@ public:
             return m_power;
         }
 
-        void 
+        bool 
         keep_alive()
         {
-            if (m_emitting)
+            if (m_emitting){
                 m_timer.reset();
+                return false;
+            }
+            
+            return true;
         }
 
         /* lzr::laser::start_emission starts emission if the laser is not emitting.
@@ -63,6 +67,7 @@ public:
         {
             if (m_emitting) {
                 m_emitting = false;
+				m_timer.stop();
                 return false;
             }
             return true;

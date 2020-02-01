@@ -66,7 +66,10 @@ private:
         std::string 
         command_kal(std::vector < int >)
         {
-            m_laser.keep_alive();
+            bool error = m_laser.keep_alive();
+            if(error)
+                return failure;
+            
             return success;
         }
 
