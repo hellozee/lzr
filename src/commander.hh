@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _LZR_COMMANDER_HH_
+#define _LZR_COMMANDER_HH_
 
 #include <map>
 #include <vector>
@@ -8,9 +9,10 @@
 namespace lzr {
     class commander {
 private:
-        std::map < std::string, std::function < std::string(commander *, std::vector < int >) >> m_worker;
+        std::map < std::string, std::function < std::string(commander *, const std::vector < int > &) >> m_worker;
         lzr::laser m_laser;
-        std::string success = "#", failure = "!";
+        std::string success = "#";
+        std::string failure = "!";
 
 public:
         commander()
@@ -24,73 +26,82 @@ public:
             m_worker["PW="] = &commander::command_pws;
         }
 
-        std::string
-        execute(std::string command, std::vector < int > args)
+        auto
+        execute(const std::string &command, const std::vector < int > &args) -> std::string
         {
             auto iterator = m_worker.find(command);
 
             if (iterator != m_worker.end()) {
                 return command + iterator->second(this, args);
             }
-            return "UK!";
+            return std::string("UK!");
         }
 
 private:
-        std::string
-        command_str(std::vector < int >)
+        auto
+        command_str(const std::vector < int >& /*unused*/) -> std::string
         {
-            lzr::error error = m_laser.start_emission();
-            if (error)
+            auto error = m_laser.start_emission();
+
+            if (error) {
                 return failure;
+            }
 
             return success;
         }
 
-        std::string
-        command_stp(std::vector < int >)
+        auto
+        command_stp(const std::vector < int >& /*unused*/) -> std::string
         {
-            lzr::error error = m_laser.stop_emission();
-            if (error)
+            auto error = m_laser.stop_emission();
+
+            if (error) {
                 return failure;
+            }
 
             return success;
         }
 
-        std::string
-        command_st(std::vector < int >)
+        auto
+        command_st(const std::vector < int >& /*unused*/) -> std::string
         {
-            std::string emitting = m_laser.is_emitting() ? "1" : "0";
+            std::string emitting = m_laser.is_emitting() ? std::string("1") : std::string("0");
             return "|" + emitting + success;
         }
 
-        std::string
-        command_kal(std::vector < int >)
+        auto
+        command_kal(const std::vector < int >& /*unused*/) -> std::string
         {
-            lzr::error error = m_laser.keep_alive();
-            if (error)
+            auto error = m_laser.keep_alive();
+
+            if (error) {
                 return failure;
+            }
 
             return success;
         }
 
-        std::string
-        command_pwq(std::vector < int >)
+        auto
+        command_pwq(const std::vector < int >& /*unused*/) -> std::string
         {
-            int power = 0;
+            unsigned int power = 0;
 
-            if (m_laser.is_emitting())
+            if (m_laser.is_emitting()) {
                 power = m_laser.power();
+            }
+
             return "|" + std::to_string(power) + success;
         }
 
-        std::string
-        command_pws(std::vector < int > args)
+        auto
+        command_pws(const std::vector < int >& args) -> std::string
         {
-            if (m_laser.is_emitting() && args.size() > 0) {
+            if (m_laser.is_emitting() && !args.empty()) {
                 m_laser.set_power(args[0]);
                 return success;
             }
             return failure;
         }
     };
-}
+}// namespace lzr
+#endif // _LZR_COMMANDER_HH_

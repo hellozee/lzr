@@ -1,7 +1,7 @@
 #include "repl.hh"
 
-int
-main()
+auto
+main()->int
 {
     lzr::repl lazer_repl;
     lazer_repl.run();

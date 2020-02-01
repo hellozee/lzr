@@ -1,10 +1,10 @@
-#pragma once
+#ifndef _LZR_REPL_HH_
+#define _LZR_REPL_HH_
 
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <tuple>
 #include "commander.hh"
+#include <iostream>
+#include <sstream>
+#include <tuple>
 
 namespace lzr {
     enum class mode {
@@ -15,7 +15,7 @@ namespace lzr {
     class repl {
 private:
         lzr::commander m_commander;
-        mode m_mode;
+        lzr::mode m_mode = lzr::mode::normal;
 public:
         void
         run()
@@ -51,11 +51,13 @@ private:
          * as a vector without the command itself. Use boost/qt if available.
          * Adapted from https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
          */
-        std::tuple < std::string, std::vector < int
-        >> get_args(std::string input)
+        static auto
+        get_args(const std::string &input) -> std::tuple < std::string, std::vector < int
+        >>
         {
             std::vector < int > args;
-            std::string arg, command;
+            std::string arg;
+            std::string command;
             std::istringstream stream(input);
 
             bool is_command = true;
@@ -72,4 +74,5 @@ private:
             return { command, args };
         }
     };
-}
+}// namespace lzr
+#endif // _LZR_REPL_HH_

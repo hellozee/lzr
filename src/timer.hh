@@ -1,11 +1,12 @@
-#pragma once
+#ifndef _LZR_TIMER_HH_
+#define _LZR_TIMER_HH_
 
-#include <thread>
 #include <chrono>
 #include <functional>
+#include <thread>
 
 namespace lzr {
-    /* time class adapted from https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
+    /* lzr::timer class adapted from https://gist.github.com/mcleary/b0bf4fa88830ff7c882d
      * feels like a hack, but it works, could be a bit inaccurate, using milliseconds
      * should be better, anyway, if available always use QTimer, far far far better.
      */
@@ -14,28 +15,25 @@ namespace lzr {
 
 public:
         void
-        set_timeout(int delay, std::function < void(void) > callback)
+        set_timeout(int delay, const std::function < void(void) > &callback)
         {
             m_running = true;
-            std::thread t([ = ](){
+            auto timer_fn = [ = ](){
                 auto start = std::chrono::system_clock::now();
                 auto end   = std::chrono::system_clock::now();
 
-                while (std::chrono::duration_cast < std::chrono::seconds > (end - start).count() < delay) {
-                    if (!m_running) {
-                        callback();
-                        return;
-                    }
-
+                while (std::chrono::duration_cast < std::chrono::seconds > (end - start).count() < delay && m_running) {
                     if (m_reset) {
                         start   = std::chrono::system_clock::now();
                         m_reset = false;
                     }
-
                     end = std::chrono::system_clock::now();
                 }
+
                 callback();
-            });
+            };
+
+            std::thread t(timer_fn);
             t.detach();
         }
 
@@ -53,4 +51,5 @@ public:
             m_reset = true;
         }
     };
-}
+}// namespace lzr
+#endif // _LZR_TIMER_HH_
