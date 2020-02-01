@@ -15,7 +15,7 @@ namespace lzr {
 
 public:
         void
-        set_timeout(int delay, const std::function < void(void) > &callback)
+        set_timeout(unsigned int delay, const std::function < void(void) > &callback)
         {
             m_running = true;
             auto timer_fn = [ = ](){

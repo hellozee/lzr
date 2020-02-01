@@ -11,8 +11,8 @@ namespace lzr {
 private:
         std::map < std::string, std::function < std::string(commander *, const std::vector < int > &) >> m_worker;
         lzr::laser m_laser;
-        std::string success = "#";
-        std::string failure = "!";
+        const std::string success = "#";
+        const std::string failure = "!";
 
 public:
         commander()
