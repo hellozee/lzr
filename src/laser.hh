@@ -3,6 +3,7 @@
 #include "timer.hh"
 
 namespace lzr {
+    typedef bool error;
     class laser {
 private:
         unsigned int m_power;
@@ -29,7 +30,10 @@ public:
             return m_power;
         }
 
-        bool 
+        /* lzr::laser::keep_alive reset's the laser timer back to original delay.
+         * Returns a bool to determine whether there was error or not.
+         */
+        error 
         keep_alive()
         {
             if (m_emitting){
@@ -44,7 +48,7 @@ public:
          * Returns a bool to determine whether there was error or not.
          * Using std::optional seems a good idea here.
          */
-        bool 
+        error
         start_emission()
         {
             if (!m_emitting) {
@@ -62,7 +66,7 @@ public:
 
         /* Exact opposite of lzr::laser::start_emission
          */
-        bool 
+        error 
         stop_emission()
         {
             if (m_emitting) {

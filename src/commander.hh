@@ -1,7 +1,6 @@
 #pragma once
 
 #include <map>
-#include <functional>
 #include <vector>
 
 #include "laser.hh"
@@ -39,7 +38,7 @@ private:
         std::string 
         command_str(std::vector < int >)
         {
-            bool error = m_laser.start_emission();
+            lzr::error error = m_laser.start_emission();
             if (error)
                 return failure;
 
@@ -49,7 +48,7 @@ private:
         std::string 
         command_stp(std::vector < int >)
         {
-            bool error = m_laser.stop_emission();
+            lzr::error error = m_laser.stop_emission();
             if (error)
                 return failure;
 
@@ -66,7 +65,7 @@ private:
         std::string 
         command_kal(std::vector < int >)
         {
-            bool error = m_laser.keep_alive();
+            lzr::error error = m_laser.keep_alive();
             if(error)
                 return failure;
             
