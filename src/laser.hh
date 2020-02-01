@@ -6,25 +6,19 @@ namespace lzr {
     typedef bool error;
     class laser {
 private:
-        unsigned int m_power;
-        bool m_emitting;
+        unsigned int m_power = 1;
+        bool m_emitting      = false;
         lzr::timer m_timer;
 
 public:
-        laser()
-        {
-            m_emitting = false;
-            m_power    = 1;
-        }
-
-        void 
+        void
         set_power(unsigned int power)
         {
             // power should be between 1-100
             m_power = power > 100 ? 100 : power < 1 ? 1 : power;
         }
 
-        int 
+        int
         power()
         {
             return m_power;
@@ -33,14 +27,14 @@ public:
         /* lzr::laser::keep_alive reset's the laser timer back to original delay.
          * Returns a bool to determine whether there was error or not.
          */
-        error 
+        error
         keep_alive()
         {
-            if (m_emitting){
+            if (m_emitting) {
                 m_timer.reset();
                 return false;
             }
-            
+
             return true;
         }
 
@@ -53,11 +47,11 @@ public:
         {
             if (!m_emitting) {
                 m_emitting = true;
-                
-                auto callback_fn = [&](){ 
+
+                auto callback_fn = [&](){
                     m_emitting = false;
                 };
-                
+
                 m_timer.set_timeout(5, callback_fn);
                 return false;
             }
@@ -66,18 +60,18 @@ public:
 
         /* Exact opposite of lzr::laser::start_emission
          */
-        error 
+        error
         stop_emission()
         {
             if (m_emitting) {
                 m_emitting = false;
-				m_timer.stop();
+                m_timer.stop();
                 return false;
             }
             return true;
         }
 
-        bool 
+        bool
         is_emitting()
         {
             return m_emitting;

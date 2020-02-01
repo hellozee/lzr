@@ -13,7 +13,7 @@ namespace lzr {
         bool m_running = false, m_reset = false;
 
 public:
-        void 
+        void
         set_timeout(int delay, std::function < void(void) > callback)
         {
             m_running = true;
@@ -39,13 +39,13 @@ public:
             t.detach();
         }
 
-        void 
+        void
         stop()
         {
             m_running = false;
         }
 
-        void 
+        void
         reset()
         {
             // should perform whether it is running or not but I already

@@ -24,10 +24,11 @@ public:
             m_worker["PW="] = &commander::command_pws;
         }
 
-        std::string 
+        std::string
         execute(std::string command, std::vector < int > args)
         {
             auto iterator = m_worker.find(command);
+
             if (iterator != m_worker.end()) {
                 return command + iterator->second(this, args);
             }
@@ -35,7 +36,7 @@ public:
         }
 
 private:
-        std::string 
+        std::string
         command_str(std::vector < int >)
         {
             lzr::error error = m_laser.start_emission();
@@ -45,7 +46,7 @@ private:
             return success;
         }
 
-        std::string 
+        std::string
         command_stp(std::vector < int >)
         {
             lzr::error error = m_laser.stop_emission();
@@ -55,33 +56,34 @@ private:
             return success;
         }
 
-        std::string 
+        std::string
         command_st(std::vector < int >)
         {
             std::string emitting = m_laser.is_emitting() ? "1" : "0";
             return "|" + emitting + success;
         }
 
-        std::string 
+        std::string
         command_kal(std::vector < int >)
         {
             lzr::error error = m_laser.keep_alive();
-            if(error)
+            if (error)
                 return failure;
-            
+
             return success;
         }
 
-        std::string 
+        std::string
         command_pwq(std::vector < int >)
         {
             int power = 0;
+
             if (m_laser.is_emitting())
                 power = m_laser.power();
             return "|" + std::to_string(power) + success;
         }
 
-        std::string 
+        std::string
         command_pws(std::vector < int > args)
         {
             if (m_laser.is_emitting() && args.size() > 0) {

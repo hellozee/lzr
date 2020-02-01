@@ -17,9 +17,7 @@ private:
         lzr::commander m_commander;
         mode m_mode;
 public:
-        repl() = default;
-
-        void 
+        void
         run()
         {
             std::string input;
@@ -53,8 +51,8 @@ private:
          * as a vector without the command itself. Use boost/qt if available.
          * Adapted from https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
          */
-        std::tuple < std::string, std::vector < int > >
-        get_args(std::string input)
+        std::tuple < std::string, std::vector < int
+        >> get_args(std::string input)
         {
             std::vector < int > args;
             std::string arg, command;
