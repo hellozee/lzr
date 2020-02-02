@@ -39,8 +39,12 @@ public:
 
 private:
         auto
-        command_str(const std::vector < int >& /*unused*/) -> std::string
+        command_str(const std::vector < int >& args) -> std::string
         {
+            if (!args.empty()) {
+                throw std::invalid_argument("Invalid Argument(s)");
+            }
+            
             auto error = m_laser.start_emission();
 
             if (error) {
@@ -51,8 +55,12 @@ private:
         }
 
         auto
-        command_stp(const std::vector < int >& /*unused*/) -> std::string
+        command_stp(const std::vector < int >& args) -> std::string
         {
+            if (!args.empty()) {
+                return failure;
+            }
+            
             auto error = m_laser.stop_emission();
 
             if (error) {
@@ -63,15 +71,23 @@ private:
         }
 
         auto
-        command_st(const std::vector < int >& /*unused*/) -> std::string
+        command_st(const std::vector < int >& args) -> std::string
         {
-            std::string emitting = m_laser.is_emitting() ? std::string("1") : std::string("0");
+            if (!args.empty()) {
+                return failure;
+            }
+            
+            auto emitting = m_laser.is_emitting() ? std::string("1") : std::string("0");
             return "|" + emitting + success;
         }
 
         auto
-        command_kal(const std::vector < int >& /*unused*/) -> std::string
+        command_kal(const std::vector < int >& args) -> std::string
         {
+            if (!args.empty()) {
+                return failure;
+            }
+            
             auto error = m_laser.keep_alive();
 
             if (error) {
@@ -82,8 +98,12 @@ private:
         }
 
         auto
-        command_pwq(const std::vector < int >& /*unused*/) -> std::string
+        command_pwq(const std::vector < int >& args) -> std::string
         {
+            if (!args.empty()) {
+                return failure;
+            }
+            
             unsigned int power = 0;
 
             if (m_laser.is_emitting()) {
@@ -100,6 +120,7 @@ private:
                 m_laser.set_power(args[0]);
                 return success;
             }
+            
             return failure;
         }
     };

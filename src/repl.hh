@@ -38,10 +38,17 @@ public:
                     m_mode = mode::normal;
                     continue;
                 }
-
-                auto [command, args] = get_args(input);
-
-                std::cout << m_commander.execute(command, args) << std::endl;
+                
+                std::string output;
+                
+                try {
+                    auto [command, args] = get_args(input);
+                    output = m_commander.execute(command, args);
+                } catch ( const std::exception& /*unused*/ ) {
+                    output = input + "!";
+                }
+                
+                std::cout << output << std::endl;
             }
         }
 
@@ -68,8 +75,17 @@ private:
                     command    = arg;
                     continue;
                 }
-
-                args.push_back(std::stoi(arg));
+                
+                try {
+                    args.push_back(std::stoi(arg));
+                } catch ( const std::exception &e ) {
+                    /* instead of throwing an exception we could 
+                     * return an error value using something like
+                     * std::variant or std::optional, honestly not
+                     * a big fan of exceptions
+                     */
+                    throw e;
+                }
             }
             return { command, args };
         }

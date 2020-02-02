@@ -16,9 +16,9 @@ if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 
     if(CLANG_TIDY_EXE)
         set(CMAKE_CXX_CLANG_TIDY 
-            clang-tidy;
-            --header-filter=.;
-            --checks=*,-fuchsia-default-arguments-calls,-fuchsia-trailing-return,-llvm-header-guard;)
+            clang-tidy
+            --header-filter=.
+            --checks=*,-fuchsia-default-arguments-calls,-fuchsia-trailing-return,-llvm-header-guard)
     endif()
     
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")

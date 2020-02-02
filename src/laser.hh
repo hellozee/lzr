@@ -4,8 +4,8 @@
 #include "timer.hh"
 
 namespace lzr {
-    using error = bool;
     class laser {
+        using error = bool;
 private:
         unsigned int m_power = 1;
         bool m_emitting      = false;
