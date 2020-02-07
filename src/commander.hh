@@ -1,20 +1,19 @@
 #ifndef _LZR_COMMANDER_HH_
 #define _LZR_COMMANDER_HH_
 
+#include "laser.hh"
 #include <map>
 #include <vector>
 
-#include "laser.hh"
-
 namespace lzr {
     class commander {
-private:
-        std::map < std::string, std::function < std::string(commander *, const std::vector < int > &) >> m_worker;
+        private:
+        std::map<std::string, std::function<std::string(commander*, const std::vector<unsigned int>&)>> m_worker;
         lzr::laser m_laser;
         const std::string success = "#";
         const std::string failure = "!";
 
-public:
+        public:
         commander()
         {
             // really neat, isn't it? :P
@@ -27,7 +26,7 @@ public:
         }
 
         auto
-        execute(const std::string &command, const std::vector < int > &args) -> std::string
+        execute(const std::string& command, const std::vector<unsigned int>& args) -> std::string
         {
             auto iterator = m_worker.find(command);
 
@@ -37,14 +36,14 @@ public:
             return std::string("UK!");
         }
 
-private:
+        private:
         auto
-        command_str(const std::vector < int >& args) -> std::string
+        command_str(const std::vector<unsigned int>& args) -> std::string
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
             }
-            
+
             auto error = m_laser.start_emission();
 
             if (error) {
@@ -55,12 +54,12 @@ private:
         }
 
         auto
-        command_stp(const std::vector < int >& args) -> std::string
+        command_stp(const std::vector<unsigned int>& args) -> std::string
         {
             if (!args.empty()) {
-                return failure;
+                throw std::invalid_argument("Invalid Argument(s)");
             }
-            
+
             auto error = m_laser.stop_emission();
 
             if (error) {
@@ -71,23 +70,23 @@ private:
         }
 
         auto
-        command_st(const std::vector < int >& args) -> std::string
+        command_st(const std::vector<unsigned int>& args) -> std::string
         {
             if (!args.empty()) {
-                return failure;
+                throw std::invalid_argument("Invalid Argument(s)");
             }
-            
+
             auto emitting = m_laser.is_emitting() ? std::string("1") : std::string("0");
             return "|" + emitting + success;
         }
 
         auto
-        command_kal(const std::vector < int >& args) -> std::string
+        command_kal(const std::vector<unsigned int>& args) -> std::string
         {
             if (!args.empty()) {
-                return failure;
+                throw std::invalid_argument("Invalid Argument(s)");
             }
-            
+
             auto error = m_laser.keep_alive();
 
             if (error) {
@@ -98,12 +97,12 @@ private:
         }
 
         auto
-        command_pwq(const std::vector < int >& args) -> std::string
+        command_pwq(const std::vector<unsigned int>& args) -> std::string
         {
             if (!args.empty()) {
-                return failure;
+                throw std::invalid_argument("Invalid Argument(s)");
             }
-            
+
             unsigned int power = 0;
 
             if (m_laser.is_emitting()) {
@@ -114,15 +113,15 @@ private:
         }
 
         auto
-        command_pws(const std::vector < int >& args) -> std::string
+        command_pws(const std::vector<unsigned int>& args) -> std::string
         {
-            if (m_laser.is_emitting() && !args.empty()) {
-                m_laser.set_power(args[0]);
+            if (m_laser.is_emitting() && args.size() == 1) {
+                m_laser.set_power(args.at(0));
                 return success;
             }
-            
-            return failure;
+
+            throw std::invalid_argument("Invalid Argument(s)");
         }
     };
-}// namespace lzr
+} // namespace lzr
 #endif // _LZR_COMMANDER_HH_

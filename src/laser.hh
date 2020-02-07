@@ -6,15 +6,16 @@
 namespace lzr {
     class laser {
         using error = bool;
-private:
-        unsigned int m_power = 1;
-        bool m_emitting      = false;
+
+        private:
         lzr::timer m_timer;
+        unsigned int m_power         = 1;
+        bool m_emitting              = false;
         const unsigned int max_power = 100;
         const unsigned int min_power = 1;
         const unsigned int delay     = 5;
 
-public:
+        public:
         void
         set_power(unsigned int power)
         {
@@ -52,9 +53,7 @@ public:
             if (!m_emitting) {
                 m_emitting = true;
 
-                auto callback_fn = [&](){
-                    m_emitting = false;
-                };
+                auto callback_fn = [&]() { m_emitting = false; };
 
                 m_timer.set_timeout(delay, callback_fn);
                 return false;
@@ -81,5 +80,5 @@ public:
             return m_emitting;
         }
     };
-}// namespace lzr
+} // namespace lzr
 #endif // _LZR_LASER_HH_

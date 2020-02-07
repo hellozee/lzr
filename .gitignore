@@ -2,3 +2,5 @@ build/
 .clangd/
 .kateproject
 compile_commands.json
+.clang-format
+CMakeLists.txt.user

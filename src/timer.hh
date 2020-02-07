@@ -13,16 +13,16 @@ namespace lzr {
     class timer {
         bool m_running = false, m_reset = false;
 
-public:
+        public:
         void
-        set_timeout(unsigned int delay, const std::function < void(void) > &callback)
+        set_timeout(unsigned int delay, const std::function<void(void)>& callback)
         {
-            m_running = true;
-            auto timer_fn = [ = ](){
+            m_running     = true;
+            auto timer_fn = [=]() {
                 auto start = std::chrono::system_clock::now();
                 auto end   = std::chrono::system_clock::now();
 
-                while (std::chrono::duration_cast < std::chrono::seconds > (end - start).count() < delay && m_running) {
+                while (std::chrono::duration_cast<std::chrono::seconds>(end - start).count() < delay && m_running) {
                     if (m_reset) {
                         start   = std::chrono::system_clock::now();
                         m_reset = false;
@@ -51,5 +51,5 @@ public:
             m_reset = true;
         }
     };
-}// namespace lzr
+} // namespace lzr
 #endif // _LZR_TIMER_HH_
