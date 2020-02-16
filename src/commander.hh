@@ -4,6 +4,7 @@
 #include "laser.hh"
 #include <map>
 #include <vector>
+#include <functional>
 
 namespace lzr {
     class commander {

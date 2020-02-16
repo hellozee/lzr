@@ -30,6 +30,9 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   endif()
 endif()
 
+find_package(asio CONFIG REQUIRED)
+include_directories(${ASIO_INCLUDE_DIR})
+
 set(SOURCES src/main.cc)
 
 add_executable(${PROJECT_NAME} ${SOURCES})

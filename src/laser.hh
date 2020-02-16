@@ -1,14 +1,21 @@
 #ifndef _LZR_LASER_HH_
 #define _LZR_LASER_HH_
 
-#include "timer.hh"
+#include <asio/steady_timer.hpp>
+#include <asio/io_context.hpp>
+#include <chrono>
+#include <thread>
+#include <algorithm>
+#include <iostream>
+#include <memory>
 
 namespace lzr {
     class laser {
         using error = bool;
 
         private:
-        lzr::timer m_timer;
+        std::unique_ptr<asio::steady_timer> m_timer;
+        std::unique_ptr<asio::io_context> m_context;
         unsigned int m_power         = 1;
         bool m_emitting              = false;
         const unsigned int max_power = 100;
@@ -20,7 +27,7 @@ namespace lzr {
         set_power(unsigned int power)
         {
             // power should be between 1-100
-            m_power = power > max_power ? max_power : power < min_power ? min_power : power;
+            m_power = std::clamp(power, min_power, max_power);
         }
 
         auto
@@ -36,7 +43,8 @@ namespace lzr {
         keep_alive() -> error
         {
             if (m_emitting) {
-                m_timer.reset();
+                stop_emission();
+                start_emission();
                 return false;
             }
 
@@ -53,9 +61,16 @@ namespace lzr {
             if (!m_emitting) {
                 m_emitting = true;
 
-                auto callback_fn = [&]() { m_emitting = false; };
-
-                m_timer.set_timeout(delay, callback_fn);
+                auto callback_fn = [this](const std::error_code& ec) { 
+                    this->m_emitting = false;
+                };
+                
+                //Why am I feeling I am doing something wrong here?
+                m_context = std::make_unique<asio::io_context>();
+                m_timer = std::make_unique<asio::steady_timer>(*m_context, std::chrono::seconds(delay));
+                m_timer->async_wait(callback_fn);
+                std::thread t([this](){ this->m_context->run(); });
+                t.detach();
                 return false;
             }
             return true;
@@ -68,7 +83,7 @@ namespace lzr {
         {
             if (m_emitting) {
                 m_emitting = false;
-                m_timer.stop();
+                m_timer->cancel();
                 return false;
             }
             return true;
