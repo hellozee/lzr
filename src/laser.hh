@@ -1,13 +1,13 @@
 #ifndef _LZR_LASER_HH_
 #define _LZR_LASER_HH_
 
-#include <asio/steady_timer.hpp>
-#include <asio/io_context.hpp>
-#include <chrono>
-#include <thread>
 #include <algorithm>
+#include <asio/io_context.hpp>
+#include <asio/steady_timer.hpp>
+#include <chrono>
 #include <iostream>
 #include <memory>
+#include <thread>
 
 namespace lzr {
     class laser {
@@ -18,9 +18,9 @@ namespace lzr {
         std::unique_ptr<asio::io_context> m_context;
         unsigned int m_power         = 1;
         bool m_emitting              = false;
-        const unsigned int max_power = 100;
-        const unsigned int min_power = 1;
-        const unsigned int delay     = 5;
+        unsigned int const max_power = 100;
+        unsigned int const min_power = 1;
+        unsigned int const delay     = 5;
 
         public:
         void
@@ -31,7 +31,7 @@ namespace lzr {
         }
 
         auto
-        power() -> unsigned int
+        power() -> unsigned int const
         {
             return m_power;
         }
@@ -61,15 +61,13 @@ namespace lzr {
             if (!m_emitting) {
                 m_emitting = true;
 
-                auto callback_fn = [this](const std::error_code& ec) { 
-                    this->m_emitting = false;
-                };
-                
-                //Why am I feeling I am doing something wrong here?
+                auto callback_fn = [this](const std::error_code& ec) { this->m_emitting = false; };
+
+                // Why am I feeling I am doing something wrong here?
                 m_context = std::make_unique<asio::io_context>();
-                m_timer = std::make_unique<asio::steady_timer>(*m_context, std::chrono::seconds(delay));
+                m_timer   = std::make_unique<asio::steady_timer>(*m_context, std::chrono::seconds(delay));
                 m_timer->async_wait(callback_fn);
-                std::thread t([this](){ this->m_context->run(); });
+                std::thread t([this]() { this->m_context->run(); });
                 t.detach();
                 return false;
             }
@@ -90,7 +88,7 @@ namespace lzr {
         }
 
         auto
-        is_emitting() -> bool
+        is_emitting() -> bool const
         {
             return m_emitting;
         }

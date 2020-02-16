@@ -56,7 +56,7 @@ namespace lzr {
          * Adapted from https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
          */
         static auto
-        get_args(const std::string& input) -> std::tuple<std::string, std::vector<unsigned int>>
+        get_args(const std::string& input) -> std::tuple<std::string, std::vector<unsigned int>> const
         {
             std::vector<unsigned int> args;
             std::string arg;

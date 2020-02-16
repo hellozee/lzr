@@ -2,9 +2,9 @@
 #define _LZR_COMMANDER_HH_
 
 #include "laser.hh"
+#include <functional>
 #include <map>
 #include <vector>
-#include <functional>
 
 namespace lzr {
     class commander {
@@ -27,7 +27,7 @@ namespace lzr {
         }
 
         auto
-        execute(const std::string& command, const std::vector<unsigned int>& args) -> std::string
+        execute(const std::string& command, const std::vector<unsigned int>& args) -> std::string const
         {
             auto iterator = m_worker.find(command);
 
@@ -39,7 +39,7 @@ namespace lzr {
 
         private:
         auto
-        command_str(const std::vector<unsigned int>& args) -> std::string
+        command_str(const std::vector<unsigned int>& args) -> std::string const
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
@@ -55,7 +55,7 @@ namespace lzr {
         }
 
         auto
-        command_stp(const std::vector<unsigned int>& args) -> std::string
+        command_stp(const std::vector<unsigned int>& args) -> std::string const
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
@@ -71,7 +71,7 @@ namespace lzr {
         }
 
         auto
-        command_st(const std::vector<unsigned int>& args) -> std::string
+        command_st(const std::vector<unsigned int>& args) -> std::string const
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
@@ -82,7 +82,7 @@ namespace lzr {
         }
 
         auto
-        command_kal(const std::vector<unsigned int>& args) -> std::string
+        command_kal(const std::vector<unsigned int>& args) -> std::string const
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
@@ -98,7 +98,7 @@ namespace lzr {
         }
 
         auto
-        command_pwq(const std::vector<unsigned int>& args) -> std::string
+        command_pwq(const std::vector<unsigned int>& args) -> std::string const
         {
             if (!args.empty()) {
                 throw std::invalid_argument("Invalid Argument(s)");
@@ -114,7 +114,7 @@ namespace lzr {
         }
 
         auto
-        command_pws(const std::vector<unsigned int>& args) -> std::string
+        command_pws(const std::vector<unsigned int>& args) -> std::string const
         {
             if (m_laser.is_emitting() && args.size() == 1) {
                 m_laser.set_power(args.at(0));
