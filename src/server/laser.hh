@@ -1,5 +1,5 @@
-#ifndef _LZR_LASER_HH_
-#define _LZR_LASER_HH_
+#ifndef _lzr_laser_hh_
+#define _lzr_laser_hh_
 
 #include <asio/io_context.hpp>
 #include <asio/steady_timer.hpp>
@@ -40,4 +40,4 @@ namespace lzr {
         bool is_emitting() const;
     };
 } // namespace lzr
-#endif // _LZR_LASER_HH_
+#endif // _lzr_laser_hh_

@@ -1,13 +1,14 @@
 #ifndef _lzr_client_hh_
 #define _lzr_client_hh_
 
-#include <asio.hpp>
+#include <asio/io_context.hpp>
+#include <asio/ip/tcp.hpp>
 #include <string>
 
 namespace lzr {
     class client {
         public:
-        client(std::string server_ip);
+        client(const std::string& server_ip);
         void send(const std::string& msg);
         std::string receive();
 
@@ -17,4 +18,4 @@ namespace lzr {
     };
 }
 
-#endif
+#endif // _lzr_client_hh_

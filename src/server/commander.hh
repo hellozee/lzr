@@ -1,5 +1,5 @@
-#ifndef _LZR_COMMANDER_HH_
-#define _LZR_COMMANDER_HH_
+#ifndef _lzr_commander_hh_
+#define _lzr_commander_hh_
 
 #include "laser.hh"
 #include <functional>
@@ -29,4 +29,4 @@ namespace lzr {
         std::string const command_pws(strvec& args);
     };
 } // namespace lzr
-#endif // _LZR_COMMANDER_HH_
+#endif // _lzr_commander_hh_

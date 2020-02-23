@@ -1,5 +1,5 @@
-#ifndef _LZR_REPL_HH_
-#define _LZR_REPL_HH_
+#ifndef _lzr_repl_hh_
+#define _lzr_repl_hh_
 
 #include "client.hh"
 #include <iostream>
@@ -17,4 +17,4 @@ namespace lzr {
         void run();
     };
 } // namespace lzr
-#endif // _LZR_REPL_HH_
+#endif // _lzr_repl_hh_

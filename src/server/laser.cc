@@ -1,5 +1,4 @@
 #include "laser.hh"
-
 #include <algorithm>
 #include <chrono>
 #include <thread>

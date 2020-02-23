@@ -3,7 +3,7 @@
 
 using asio::ip::tcp;
 
-lzr::client::client(std::string server_ip)
+lzr::client::client(const std::string& server_ip)
     : m_socket(tcp::socket(m_iocontext))
 {
     m_socket.connect(tcp::endpoint(asio::ip::make_address(server_ip), 4242));

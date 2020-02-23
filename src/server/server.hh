@@ -2,7 +2,8 @@
 #define _lzr_server_hh_
 
 #include "commander.hh"
-#include <asio.hpp>
+#include <asio/io_context.hpp>
+#include <asio/ip/tcp.hpp>
 
 namespace lzr {
     class server {
@@ -18,4 +19,4 @@ namespace lzr {
     };
 }
 
-#endif
+#endif // _lzr_server_hh_
