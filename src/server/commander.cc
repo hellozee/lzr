@@ -12,7 +12,7 @@ lzr::commander::commander()
 }
 
 auto
-lzr::commander::execute(const std::string& command, const std::vector<std::string>& args) -> std::string const
+lzr::commander::execute(std::string const& command, std::vector<std::string> const& args) -> std::string
 {
     auto iterator = m_worker.find(command);
 
@@ -23,7 +23,7 @@ lzr::commander::execute(const std::string& command, const std::vector<std::strin
 }
 
 auto
-lzr::commander::command_str(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_str(std::vector<std::string> const& args) -> std::string const
 {
     if (!args.empty()) {
         throw std::invalid_argument("Invalid Argument(s)");
@@ -39,7 +39,7 @@ lzr::commander::command_str(const std::vector<std::string>& args) -> std::string
 }
 
 auto
-lzr::commander::command_stp(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_stp(std::vector<std::string> const& args) -> std::string const
 {
     if (!args.empty()) {
         throw std::invalid_argument("Invalid Argument(s)");
@@ -55,7 +55,7 @@ lzr::commander::command_stp(const std::vector<std::string>& args) -> std::string
 }
 
 auto
-lzr::commander::command_st(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_st(std::vector<std::string> const& args) const -> std::string const
 {
     if (!args.empty()) {
         throw std::invalid_argument("Invalid Argument(s)");
@@ -66,7 +66,7 @@ lzr::commander::command_st(const std::vector<std::string>& args) -> std::string 
 }
 
 auto
-lzr::commander::command_kal(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_kal(std::vector<std::string> const& args) -> std::string const
 {
     if (!args.empty()) {
         throw std::invalid_argument("Invalid Argument(s)");
@@ -82,7 +82,7 @@ lzr::commander::command_kal(const std::vector<std::string>& args) -> std::string
 }
 
 auto
-lzr::commander::command_pwq(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_pwq(std::vector<std::string> const& args) const -> std::string const
 {
     if (!args.empty()) {
         throw std::invalid_argument("Invalid Argument(s)");
@@ -98,7 +98,7 @@ lzr::commander::command_pwq(const std::vector<std::string>& args) -> std::string
 }
 
 auto
-lzr::commander::command_pws(const std::vector<std::string>& args) -> std::string const
+lzr::commander::command_pws(std::vector<std::string> const& args) -> std::string const
 {
     if (m_laser.is_emitting() && args.size() == 1) {
         int power = 0;

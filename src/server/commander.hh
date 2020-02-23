@@ -10,23 +10,23 @@
 namespace lzr {
     class commander {
         private:
-        typedef const std::vector<std::string> strvec;
-        std::unordered_map<std::string, std::function<std::string(commander*, strvec&)>> m_worker;
+        typedef std::vector<std::string> const& strvec;
+        std::unordered_map<std::string, std::function<std::string(commander*, strvec)>> m_worker;
         lzr::laser m_laser;
-        const std::string success = "#";
-        const std::string failure = "!";
+        std::string const success = "#";
+        std::string const failure = "!";
 
         public:
         commander();
-        std::string const execute(const std::string& command, strvec& args);
+        std::string execute(std::string const& command, strvec args);
 
         private:
-        std::string const command_str(strvec& args);
-        std::string const command_stp(strvec& args);
-        std::string const command_st(strvec& args);
-        std::string const command_kal(strvec& args);
-        std::string const command_pwq(strvec& args);
-        std::string const command_pws(strvec& args);
+        std::string const command_str(strvec args);
+        std::string const command_stp(strvec args);
+        std::string const command_st(strvec args) const;
+        std::string const command_kal(strvec args);
+        std::string const command_pwq(strvec args) const;
+        std::string const command_pws(strvec args);
     };
 } // namespace lzr
 #endif // _lzr_commander_hh_
