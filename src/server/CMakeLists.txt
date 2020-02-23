@@ -1,2 +1,2 @@
-add_executable(server main.cc server.cc laser.cc commander.cc)
-target_link_libraries(server pthread absl::strings)
+add_executable(lzr-server main.cc server.cc laser.cc commander.cc)
+target_link_libraries(lzr-server pthread absl::strings)
