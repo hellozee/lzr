@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.18)
 
 set(PROJECT_NAME lzr)
 project(${PROJECT_NAME})
@@ -19,7 +19,8 @@ endif()
 
 find_package(asio CONFIG REQUIRED)
 find_package(absl CONFIG REQUIRED)
+find_package(Threads REQUIRED)
 
-include_directories(${ASIO_INCLUDE_DIR} ${ABSL_INCLUDE_DIR} includes/)
+include_directories(includes/)
 
 add_subdirectory(src)
